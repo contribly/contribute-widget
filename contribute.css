@@ -1,0 +1,187 @@
+.contribly .contribute-modal-open {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+  overflow-y: scroll;
+}
+
+.contribly .contribute-modal-inner {
+    position: absolute;
+    z-index: 2000;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    font-size: 14px;
+}
+
+.contribly .contribute-form label {
+ font-family: sans-serif;
+  color: #777;
+  font-weight: normal;
+}
+
+.contribly .contribute-form label strong {
+ font-weight: bold;
+ color: #333;
+}
+
+.contribly .contribute-form a {
+    color: #005289;
+    text-decoration: none;
+}
+
+.contribly .contribute-form .form-group textarea {
+    border: 1px solid #d7d7d3;
+    border-radius: 0;
+    color: #666;
+    font-family: sans-serif;
+    padding: 8px;
+    height: auto;
+}
+.contribly .contribute-form .form-group input {
+    border: 1px solid #d7d7d3;
+    border-radius: 0;
+    color: #666;
+    font-family: sans-serif;
+    padding: 8px;
+    height: auto;
+}
+.contribly .contribute-form .form-group select {
+    border: 1px solid #d7d7d3;
+    border-radius: 0;
+    color: #666;
+    font-family: sans-serif;
+    padding: 8px;
+    height: auto;
+}
+.contribly .contribute-form .form-group textarea {
+    resize: none;
+}
+
+.contribly modal-header h3  {
+    font-family: Georgia, serif;
+    display: inline;
+}
+
+.contribly .modal-content h3  {
+    font-family: Georgia, serif;
+    display: inline;
+}
+
+.contribly .modal-body {
+    background-color: #eee;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.contribly .notification {
+   position: static;
+   margin-left: 0px;
+   width: 100%;
+   box-shadow: none;
+   left: 0px;
+}
+
+.contribly .btn {
+    font-family: Georgia, serif;
+    font-size: 14px;
+    padding: 7px 16px;
+    box-shadow: none;
+}
+
+.contribly .complete {
+    text-align: center;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.contribly .complete .btn.btn-close {
+    background: #f9f9f9 none repeat scroll 0 0;
+    border: 1px solid #d7d7d3;
+    transition: all 0.3s ease 0s;
+}
+
+.contribly .complete h2 {
+    font-family: Georgia,serif;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.contribly .complete p {
+    margin: 20px;
+    font-size: 14pt;
+}
+
+.contribly .terms-and-conditions {
+    float: right;
+    text-align: center;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    margin: 11px 0px 0 0;
+}
+
+.contribly .btn.btn-contribute {
+    background: #2a7aae url("https://contribly-whitelabel-static.s3.amazonaws.com/244/guardianwitness/css/images/contribute-ico.png") no-repeat scroll 12px 9px;
+    padding: 8px 18px 9px 36px;
+    font-family: Georgia,serif;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+    border: medium none;
+    color: #fff;
+    text-shadow: none;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.contribly .progress-bar {
+    transition: none;
+}
+
+.contribly .progress-tab strong {
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: bold;
+    color: #333;
+}
+
+.contribly #contribly-form label {
+ font-family: sans-serif;
+  color: #777;
+  font-weight: normal;
+}
+
+.contribly #contribly-form label strong {
+ font-weight: bold;
+ color: #333;
+}
+
+.contribly #contribly-form a {
+    color: #005289;
+    text-decoration: none;
+}
+
+.contribly #contribly-complete {
+    text-align: center;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.contribly #contribly-complete .btn.btn-close {
+    background: #f9f9f9 none repeat scroll 0 0;
+    border: 1px solid #d7d7d3;
+    transition: all 0.3s ease 0s;
+}
+
+.contribly #contribly-complete h2 {
+    font-family: Georgia,serif;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+.contribly #contribly-complete p {
+    margin: 20px;
+    font-size: 14pt;
+}
