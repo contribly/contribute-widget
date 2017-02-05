@@ -476,14 +476,9 @@ function contriblyInitContributeButton(button) {
 
     var clientKey = button.attr('data-client');
 
-    var headerHtml = '<button class="close" type="button" aria-hidden="true">&times;</button><h3 class="heading">Contribute</h3>'
-    var formHtml = '<form class="contribute-form" method="POST" enctype="multipart/form-data" style="display: none"><fieldset><div class="form-group"><label for="contribly-title"><strong>Title</strong></label><input type="text" id="contribly-title" class="form-control" name="headline" placeholder="What\'s going on? Who\'s involved? (Keep it short)"/></div>' + '<div class="form-group"><label for="assignment"><strong>Assignment</strong></label><select class="form-control" name="assignment"/></select></div>' + '<div class="form-group"><label for="contribly-body"><strong>Add a description</strong> <span class="optional">(optional)</span></label><textarea id="contribly-body" class="form-control" name="body" rows="3" placeholder="Tell us more. What\'s the context? What evidence do you have?"></textarea></div><div class="form-group"><label for="contribly-media"><strong>Add a photo or video</strong> <span class="optional">(optional)</span></label><input type="file" name="media"></div><div class="form-group"><label for="contribly-location"><strong>Location</strong> <span class="optional">(optional)</span></label><input class="form-control" name="location"><input id="contribly-latitude" name="latitude" type="hidden"><input id="contribly-longitude" name="longitude" type="hidden"><input name="selectedlocation" type="hidden"><input name="googleplaceid" type="hidden"><input name="osmplaceid" type="hidden"><input name="osmplacetype" type="hidden"></div></fieldset><div class="form-actions"><a class="terms-and-conditions" target="_blank" href="" style="display: none">Terms and conditions</a><input type="submit" class="btn btn-primary" value="Contribute" /></div></form>';
-    var progressHtml = '<div class="progress-tab" style="display: none"><p><strong class="progress-step"></strong></p><div class="progress"><div class="progress-bar" role="progressbar"></div></div></div>';
-    var successHtml = '<div class="complete" style="display: none"><h2>Thank you for your submission</h2><img src="https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/formsuccess.png"><p>We review everything to check that it\'s suitable before publishing</p><a class="btn btn-close" href="#" aria-hidden="true">Close this window</a><a class="btn btn-primary contribute-again" href="#">Contribute again</a>';
+    var contributeModal = $contriblyjQuery(contributeModalHtml);
 
-    var contributeModal = $contriblyjQuery('<div class="contribute-modal-inner"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">' + headerHtml + '</div><div class="modal-body"><div class="contribly-widget" style="display: none"><div class="notification" role="alert"></div>' + formHtml + progressHtml + successHtml + '<div class="loader"></div></div></div></div>');
-
-    button.html('<span class="contribly"><a class="btn btn-primary btn-contribute">Add your contribution</a></span>');
+    button.html(buttonHtml);
 
     var contriblyClass = button.find(".contribly");
     contriblyClass.find('.btn-contribute').on('click', {root: contriblyClass}, launchModal);
@@ -491,12 +486,31 @@ function contriblyInitContributeButton(button) {
     publishContriblyEvent({type: "button-shown"})
 }
 
-$contriblyjQuery.ajax({
-    url: "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute2017012801-SNAPSHOT.css",
-    success:function(data) {
-        $contriblyjQuery("head").append("<style>" + data + "</style>");
 
-        var backdrop = $contriblyjQuery('<div class="contribly"><div id="contribly-modal-backdrop" class="modal-backdrop" style="display: none"></div></div>');
+var contriblyContributeStyling = {
+    css: "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute2017012801-SNAPSHOT.css";
+    
+
+};
+
+var contriblyContributeCssUrl = ;
+
+var buttonHtml = '<span class="contribly"><a class="btn btn-primary btn-contribute">Add your contribution</a></span>';
+
+var headerHtml = '<button class="close" type="button" aria-hidden="true">&times;</button><h3 class="heading">Contribute</h3>'
+var formHtml = '<form class="contribute-form" method="POST" enctype="multipart/form-data" style="display: none"><fieldset><div class="form-group"><label for="contribly-title"><strong>Title</strong></label><input type="text" id="contribly-title" class="form-control" name="headline" placeholder="What\'s going on? Who\'s involved? (Keep it short)"/></div>' + '<div class="form-group"><label for="assignment"><strong>Assignment</strong></label><select class="form-control" name="assignment"/></select></div>' + '<div class="form-group"><label for="contribly-body"><strong>Add a description</strong> <span class="optional">(optional)</span></label><textarea id="contribly-body" class="form-control" name="body" rows="3" placeholder="Tell us more. What\'s the context? What evidence do you have?"></textarea></div><div class="form-group"><label for="contribly-media"><strong>Add a photo or video</strong> <span class="optional">(optional)</span></label><input type="file" name="media"></div><div class="form-group"><label for="contribly-location"><strong>Location</strong> <span class="optional">(optional)</span></label><input class="form-control" name="location"><input id="contribly-latitude" name="latitude" type="hidden"><input id="contribly-longitude" name="longitude" type="hidden"><input name="selectedlocation" type="hidden"><input name="googleplaceid" type="hidden"><input name="osmplaceid" type="hidden"><input name="osmplacetype" type="hidden"></div></fieldset><div class="form-actions"><a class="terms-and-conditions" target="_blank" href="" style="display: none">Terms and conditions</a><input type="submit" class="btn btn-primary" value="Contribute" /></div></form>';
+var progressHtml = '<div class="progress-tab" style="display: none"><p><strong class="progress-step"></strong></p><div class="progress"><div class="progress-bar" role="progressbar"></div></div></div>';
+var successHtml = '<div class="complete" style="display: none"><h2>Thank you for your submission</h2><img src="https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/formsuccess.png"><p>We review everything to check that it\'s suitable before publishing</p><a class="btn btn-close" href="#" aria-hidden="true">Close this window</a><a class="btn btn-primary contribute-again" href="#">Contribute again</a>';
+
+var contributeModalHtml = '<div class="contribute-modal-inner"><div class="modal-dialog"><div class="modal-content"><div class="modal-header">' + headerHtml + '</div><div class="modal-body"><div class="contribly-widget" style="display: none"><div class="notification" role="alert"></div>' + formHtml + progressHtml + successHtml + '<div class="loader"></div></div></div></div>';
+var contributeModalBackdropHtml = '<div class="contribly"><div id="contribly-modal-backdrop" class="modal-backdrop" style="display: none"></div></div>';
+
+$contriblyjQuery.ajax({
+    url: contriblyContributeCssUrl,
+    success:function(css) {
+        $contriblyjQuery("head").append("<style>" + css + "</style>");
+
+        var backdrop = $contriblyjQuery(contributeModalBackdropHtml);
         $contriblyjQuery("body").append(backdrop);
 
         $contriblyjQuery('.contribly-contribute').each(function(i, v) {
