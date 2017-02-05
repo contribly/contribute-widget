@@ -486,14 +486,7 @@ function contriblyInitContributeButton(button) {
     publishContriblyEvent({type: "button-shown"})
 }
 
-
-var contriblyContributeStyling = {
-    css: "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute2017012801-SNAPSHOT.css";
-    
-
-};
-
-var contriblyContributeCssUrl = ;
+var contriblyContributeCssUrl = "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute2017012801-SNAPSHOT.css";
 
 var buttonHtml = '<span class="contribly"><a class="btn btn-primary btn-contribute">Add your contribution</a></span>';
 
