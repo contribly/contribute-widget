@@ -49,3 +49,24 @@ function contriblyEventListener(ce) {
     }
 };
 ```
+
+
+### Mapping Contribly events to Google Analytics events
+
+If Google Analytics is available on the page where the widget is to be shown, the [Google Analytics Events Tracking](https://developers.google.com/analytics/devguides/collection/analyticsjs/events) API can be to record Contribly widget events.
+
+Insert the following code onto the page, somewhere after Google Analytics but before the widget:
+
+```
+<script>
+function contriblyEventListener(ce) {
+    if (ga === "function") {
+        ga('send', 'event', 'Contribly', ce.type, ce.widget);
+    }
+};
+</script>
+```
+
+This code generates an analytics event for each Contribly widget event. These events should be visible in the Google Analytics console (Reporting / Behaviour / Events) under the event category 'Contribly'.
+
+
