@@ -70,3 +70,18 @@ function contriblyEventListener(ce) {
 This code generates an analytics event for each Contribly widget event. These events should be visible in the Google Analytics console (Reporting / Behaviour / Events) under the event category 'Contribly'.
 
 
+### Mapping to Google Tag Manager events
+
+The events callback approach can also be used to map Contribly events to [Google Tag Manager events](https://developers.google.com/tag-manager/devguide#events).
+
+```
+<script>
+    function contriblyEventListener(ce) {
+        dataLayer.push({
+            'category': 'Contribly',
+		    'widget': ce.widget,
+                'action': ce.type
+            }, {'event': 'data-layer-event'}
+            );
+</script>
+```
