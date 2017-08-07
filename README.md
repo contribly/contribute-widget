@@ -14,7 +14,7 @@ Attribute | Description
 -----------|------------
 assignment  | The id of the assignment that contributions will be submitted to (required)
 client      | The Contribly client key of the application (required)
-
+display     | The display mode. Inline of modal (inline|model)
 
 The widget can be inserted into a target page by pasting the HTML snippet into that page.
 The approriate snippets can be found in the Contribly moderation tool.
