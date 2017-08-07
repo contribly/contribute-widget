@@ -1,3 +1,25 @@
+function contriblyGeocode(position, locationField) {
+
+    function recordSelectedLocation(data) {
+        locationField.val(data.display_name);
+        locationField.attr("data-selected-value", data.display_name);
+        locationField.attr("data-selected-latitude", data.lat);
+        locationField.attr("data-selected-longitude", data.lon);
+        locationField.attr("data-selected-osmid", data.osm_id);
+        locationField.attr("data-selected-osmtype", data.osm_type);
+    }
+
+    var coords = position.coords;
+    var url = "https://nominatim.eelpieconsulting.co.uk/reverse?format=json&lat=" + coords.latitude + "&lon=" + coords.longitude + "&zoom=10";
+    $contriblyjQuery.ajax({
+        url: url,
+        cache: true,
+        success: function(data) {
+            recordSelectedLocation(data);
+        }
+    });
+}
+
 // Attaches a location name autocomplete behaviour to the given input field.
 // Implemented using the jQuery UI autocomplete plugin.
 // The location data source is OpenStreetMap.
@@ -29,10 +51,10 @@ function contriblyLocationAutocomplete(locationField) {
                     url: "https://nominatim-ac.eelpieconsulting.co.uk/search",
                     cache: true,
                     jsonpCallback : "callback",
-                    dataType: "jsonp",
+                    dataType: "jsonp",  // TODO Add CORS support to API
                     data: {
                         q: request.term,
-                        profile: 'countryCityTownSuburb'
+                        profile: 'countryStateCity'
                     },
                     success: function(data) {
                         response($contriblyjQuery.map(data, function(item) {

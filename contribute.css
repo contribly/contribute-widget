@@ -15,7 +15,7 @@
 }
 
 .contribly .contribute-form label {
- font-family: sans-serif;
+  font-family: sans-serif;
   color: #777;
   font-weight: normal;
 }
@@ -31,7 +31,6 @@
 }
 
 .contribly .contribute-form .form-group textarea {
-    border: 1px solid #d7d7d3;
     border-radius: 0;
     color: #666;
     font-family: sans-serif;
@@ -39,7 +38,6 @@
     height: auto;
 }
 .contribly .contribute-form .form-group input {
-    border: 1px solid #d7d7d3;
     border-radius: 0;
     color: #666;
     font-family: sans-serif;
@@ -47,7 +45,6 @@
     height: auto;
 }
 .contribly .contribute-form .form-group select {
-    border: 1px solid #d7d7d3;
     border-radius: 0;
     color: #666;
     font-family: sans-serif;
@@ -96,9 +93,14 @@
     line-height: 20px;
 }
 
+.contribly .contribute-form .description {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    margin-bottom: 24pt;
+}
+
 .contribly .complete .btn.btn-close {
     background: #f9f9f9 none repeat scroll 0 0;
-    border: 1px solid #d7d7d3;
     transition: all 0.3s ease 0s;
 }
 
@@ -171,7 +173,6 @@
 
 .contribly #contribly-complete .btn.btn-close {
     background: #f9f9f9 none repeat scroll 0 0;
-    border: 1px solid #d7d7d3;
     transition: all 0.3s ease 0s;
 }
 
