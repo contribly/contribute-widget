@@ -17,25 +17,34 @@ function validateSubmission(assignmentForm, contributeForm) {
     if (assignmentForm != null) {
         $contriblyjQuery.each(assignmentForm.fields, function(i, field) {
             var fieldInput = findFieldByName(field.name)
+
+            var hasProblem = false;
+            var container = fieldInput.parent();
+
             if (field.required) {
                  if (field.type == "checkbox") {
+                    container = fieldInput.parent().parent();
                     if (!fieldInput.prop('checked')) {
-                      fieldInput.parent().parent().addClass("has-error");
-                      problemFields.push(fieldInput);
+                        hasProblem = true;
                     }
                  } else {
                      if (isBlank(fieldInput.val())) {
-                        fieldInput.parent().addClass("has-error");
-                        problemFields.push(fieldInput);
+                        hasProblem = true;
                      }
                  }
             }
 
             if ("email" == field.validator) {
                  if (!isBlank(fieldInput.val()) && !validateEmail(fieldInput.val())) {
-                    fieldInput.parent().addClass("has-error");
-                    problemFields.push(fieldInput);
+                    hasProblem = true;
                  }
+            }
+
+            if (hasProblem) {
+                problemFields.push(fieldInput);
+                container.addClass("has-error");
+            } else {
+                container.removeClass("has-error");
             }
         });
     }
