@@ -88,12 +88,12 @@ function renderForm(form, description) {
     if (locationField.length > 0 ) {
         contriblyLocationAutocomplete(locationField);
 
-        var enableMyLocation = navigator.geolocation !== null;
+        var enableMyLocation = location.protocol === 'https:' && navigator.geolocation !== null;    // TODO Not entirely complete; Safari rejects mixed content pages
         if (enableMyLocation) {
             var locationFormGroup = locationField.parent();
             var inputGroup = $contriblyjQuery('<div>', {class: "input-group"})
             inputGroup.append(locationField);
-            var addOn = $contriblyjQuery('<span class="input-group-addon contribly-user-location">+<i class="icon-screenshot"></i></span>');
+            var addOn = $contriblyjQuery('<span class="input-group-addon contribly-user-location"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>');
             inputGroup.append(addOn);
             locationFormGroup.append(inputGroup);
 
