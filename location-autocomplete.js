@@ -50,8 +50,7 @@ function contriblyLocationAutocomplete(locationField) {
                 $contriblyjQuery.ajax({
                     url: "https://nominatim-ac.eelpieconsulting.co.uk/search",
                     cache: true,
-                    jsonpCallback : "callback",
-                    dataType: "jsonp",  // TODO Add CORS support to API
+                    method: "GET",
                     data: {
                         q: request.term,
                         profile: 'countryStateCity'
