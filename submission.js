@@ -158,7 +158,7 @@ function submit(token, modalContent, contributeForm, contriblyjQuery, contriblyC
     eventualMedia.fail(function() {
         modalContent.find('.progress-tab').hide();
         contributeForm.show();
-        showError('Could not upload media');
+        contriblyContributeShowError('Could not upload media');
     });
 
     eventualMedia.done(function(media) {
@@ -177,7 +177,7 @@ function submit(token, modalContent, contributeForm, contriblyjQuery, contriblyC
                 return field.name + " " + field.message;
             });
 
-            showError(err.responseJSON.message + " " + fieldErrors);
+            contriblyContributeShowError(err.responseJSON.message + " " + fieldErrors);
         });
 
         eventualContribution.done(function(contribution) {
@@ -188,7 +188,7 @@ function submit(token, modalContent, contributeForm, contriblyjQuery, contriblyC
                 modalContent.find('.progress-tab').hide();
                 modalContent.find('.progress-step').text('');
                 contributeForm.show();
-                showError(err);
+                contriblyContributeShowError(err);
             });
 
             eventualFormResponse.done(function(formResponse) {

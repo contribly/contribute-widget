@@ -1,12 +1,14 @@
 function contriblyGeocode(position, locationField) {
 
     function recordSelectedLocation(data) {
-        locationField.val(data.display_name);
-        locationField.attr("data-selected-value", data.display_name);
-        locationField.attr("data-selected-latitude", data.lat);
-        locationField.attr("data-selected-longitude", data.lon);
-        locationField.attr("data-selected-osmid", data.osm_id);
-        locationField.attr("data-selected-osmtype", data.osm_type);
+        if (data.osm_id && data.osm_type) {
+            locationField.val(data.display_name);
+            locationField.attr("data-selected-value", data.display_name);
+            locationField.attr("data-selected-latitude", data.lat);
+            locationField.attr("data-selected-longitude", data.lon);
+            locationField.attr("data-selected-osmid", data.osm_id);
+            locationField.attr("data-selected-osmtype", data.osm_type.substr(0, 1).toUpperCase());
+        }
     }
 
     var coords = position.coords;
@@ -23,7 +25,7 @@ function contriblyGeocode(position, locationField) {
 // Attaches a location name autocomplete behaviour to the given input field.
 // Implemented using the jQuery UI autocomplete plugin.
 // The location data source is OpenStreetMap.
-function contriblyLocationAutocomplete(locationField) {
+function contriblyLocationAutocomplete(locationField, profile) {
 
     function recordSelectedLocation(selectedLocation) {
         locationField.attr("data-selected-value", selectedLocation.value);
@@ -53,7 +55,7 @@ function contriblyLocationAutocomplete(locationField) {
                     method: "GET",
                     data: {
                         q: request.term,
-                        profile: 'countryStateCity'
+                        profile: profile
                     },
                     success: function(data) {
                         response($contriblyjQuery.map(data, function(item) {

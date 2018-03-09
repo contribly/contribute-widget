@@ -1,5 +1,5 @@
 // Renders a Contribly form as an HTML fieldset element
-function renderForm(form, description) {
+function renderForm(form, description, locationAutocompleteProfile) {   // TODO profile should move towards been an attribute of the location field
 
     function renderInput(contriblyjQuery, field) {
 
@@ -86,7 +86,7 @@ function renderForm(form, description) {
 
     var locationField = fieldSet.find("input[name=location]");
     if (locationField.length > 0 ) {
-        contriblyLocationAutocomplete(locationField);
+        contriblyLocationAutocomplete(locationField, locationAutocompleteProfile);
 
         var enableMyLocation = location.protocol === 'https:' && navigator.geolocation !== null;    // TODO Not entirely complete; Safari rejects mixed content pages
         if (enableMyLocation) {

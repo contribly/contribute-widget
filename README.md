@@ -21,7 +21,7 @@ The approriate snippets can be found in the Contribly moderation tool.
 
 ie.
 ```
-<span class="contribly-contribute" data-client="a-client-key" data-assignment="an-assignment-id"></span><script type="text/javascript" src="https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute.js"></script>
+<span class="contribly-contribute" data-client="a-client-key" data-assignment="an-assignment-id" data-display="inline"></span><script type="text/javascript" src="https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute.js"></script>
 ```
 
 
@@ -29,7 +29,7 @@ ie.
 
 You may wish to be informed about events which occur within the contributes widget. Calling your analytics service is a common use case.
 
-You can receive widget event callbacks by defining a function named 'contriblyEventLister'. 
+You can receive widget event callbacks by defining a function named 'contriblyEventLister'.
 If this function is defined it will be called with an object describing the widget events as they occur.
 
 The format of this object is:
