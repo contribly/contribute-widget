@@ -148,21 +148,16 @@ var contriblyContributeLoading = true;
 
 if (contriblyContributeNeedsLoading) {
     var $contriblyjQuery = jQuery.noConflict();
-
     var contriblyContributeSnippets = $contriblyjQuery('.contribly-contribute');
-    if (contriblyContributeSnippets.length > 0) {
-        var contriblyContributeCssUrl = "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contributeSNAPSHOT.css";
 
-        var cssToLoad = contriblyContributeCssUrl
+    if (contriblyContributeSnippets.length > 0) {
         var firstContributeWidget = contriblyContributeSnippets[0];
         var requestedCss = $contriblyjQuery(firstContributeWidget).attr('data-css');
-        if (requestedCss != undefined) {
-            cssToLoad = requestedCss;
-        }
-
+        var cssToLoad = (requestedCss != undefined) ? requestedCss : "https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute2018051001.css";
         $contriblyjQuery.ajax({
             url: cssToLoad,
             success: function(data) {
+                // Add additional styles.
                 $contriblyjQuery("head").append("<style>" + data + "</style>");
 
                 var contributeModalBackdropHtml = '<div class="contribly"><div class="modal-backdrop contribly-modal-backdrop" style="display: none"></div></div>';
@@ -176,6 +171,5 @@ if (contriblyContributeNeedsLoading) {
                 });
             }
         });
-
     }
 }

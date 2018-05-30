@@ -119,6 +119,19 @@
             }).promise();
         }
 
+        function cssLoadPromise(cssUrlToLoad) {
+            console.log("Attempting to load additional CSS: " + cssUrlToLoad);
+            return $contriblyjQuery.ajax({
+                url: cssUrlToLoad,
+                success: function(data) {
+                    $contriblyjQuery("head").append("<style>" + data + "</style>");
+                },
+                error: function( jqXHR, textStatus, errorThrown ) {
+                    console.log("Failed to load form specific CSS from URL: " + cssUrlToLoad + ". Possibly causes could include CORS issues.");
+                }
+            }).promise().catch( function() {console.log("Ignoring form specific CSS due to load error")});
+        }
+
         var eventualClient = clientPromise(clientKey);
         eventualClient.fail(function() {
             contriblyContributeShowError('Invalid client');    // TODO show actual error message
@@ -182,10 +195,6 @@
 
 
                             var receiptMessage = "We review everything to check that it's suitable before publishing";
-                            if (ownedBy == "4523aaf2-ab2a-420d-9fbf-29e4965b9f37") {    // TODO push up
-                                receiptMessage = "We review all submissions to be sure they are suitable before publishing.</p><p>To contribute more to Irish Times Abroad, or receive a weekly digest of stories, <a href=\" http://www.irishtimes.com/life-and-style/abroad/join-us\" target=\"_blank\">click here to join the Network</a>.</p>";
-                            }
-
                             if (assignment.receiptMessage !== undefined && assignment.receiptMessage.length > 0) {
                                 receiptMessage = assignment.receiptMessage;
                             }
@@ -200,83 +209,85 @@
                             }
 
                             eventualForm.done(function(assignmentForm) {
+                                var formSpecificCssToLoad = assignmentForm.cssUrl;
+                                var eventualFormSpecificCssApplied = (formSpecificCssToLoad != undefined) ? cssLoadPromise(formSpecificCssToLoad) : $contriblyjQuery.when(null);
+                                eventualFormSpecificCssApplied.done(function() {
 
-                                var isAssignmentOpen = assignment == null || assignment.open;
-                                if (isAssignmentOpen) {
-                                    if (assignmentForm != null) {
-                                        var fieldSet = renderForm(assignmentForm, assignment.description, locationAutocompleteProfile);
-                                        var formActions = contributeForm.find(".form-actions");
-                                        fieldSet.insertBefore(formActions);
-                                    }
+                                    var isAssignmentOpen = assignment == null || assignment.open;
+                                    if (isAssignmentOpen) {
+                                        if (assignmentForm != null) {
+                                            var fieldSet = renderForm(assignmentForm, assignment.description, locationAutocompleteProfile);
+                                            var formActions = contributeForm.find(".form-actions");
+                                            fieldSet.insertBefore(formActions);
+                                        }
 
-                                    var submitBtn = contributeForm.find('input[type="submit"]');
-                                    if (submitBtn) {
-                                        submitBtn.on('click', function(e) {
-                                            e.preventDefault();
-                                            if (validateSubmission(assignmentForm, contributeForm)) {
+                                        var submitBtn = contributeForm.find('input[type="submit"]');
+                                        if (submitBtn) {
+                                            submitBtn.on('click', function(e) {
+                                                e.preventDefault();
+                                                if (validateSubmission(assignmentForm, contributeForm)) {
 
-                                               function handleSubmit(token, modalContent, contributeForm, assignmentForm) {
-                                                    $contriblyjQuery('.notification').hide();
-                                                    contributeForm.hide();
-                                                    modalContent.find('.progress-tab').show();
-                                                    submit(token, modalContent, contributeForm, $contriblyjQuery, contriblyContributionsUrl, assignmentForm, contriblyMediaUrl, contriblyFormResponsesUrl, postSubmitCallback);
+                                                   function handleSubmit(token, modalContent, contributeForm, assignmentForm) {
+                                                        $contriblyjQuery('.notification').hide();
+                                                        contributeForm.hide();
+                                                        modalContent.find('.progress-tab').show();
+                                                        submit(token, modalContent, contributeForm, $contriblyjQuery, contriblyContributionsUrl, assignmentForm, contriblyMediaUrl, contriblyFormResponsesUrl, postSubmitCallback);
+                                                    }
+
+                                                    // Obtain an access token
+                                                    var grant = authenticationToUse.buildGrant();
+                                                    if (grant) {
+                                                        var eventualToken = tokenPromise(grant);
+
+                                                        eventualToken.fail(function() {
+                                                            contriblyContributeShowError('Could not obtain token');
+                                                            modalContent.find(".contribly-widget").show();
+                                                        });
+
+                                                        eventualToken.done(function(data) {
+                                                            var token = data['access_token'];
+                                                            console.log("Submitting using token: " + token);
+                                                            handleSubmit(token, modalContent, contributeForm, assignmentForm);
+                                                        });
+
+                                                    } else {
+                                                        // TODO UI
+                                                        console.log("No grant");
+                                                    }
                                                 }
+                                            });
+                                        }
 
-                                                // Obtain an access token
-                                                var grant = authenticationToUse.buildGrant();
-                                                if (grant) {
-                                                    var eventualToken = tokenPromise(grant);
+                                       var completeTab = modalContent.find('.complete');
 
-                                                    eventualToken.fail(function() {
-                                                        contriblyContributeShowError('Could not obtain token');
-                                                        modalContent.find(".contribly-widget").show();
-                                                    });
+                                        var contributeAgainBtn = completeTab.find(".contribute-again");
+                                        if (contributeAgainBtn) {
+                                             contributeAgainBtn.on('click', function(e) {
+                                                 e.preventDefault();
+                                                 modalContent.find(".complete").hide();
+                                                 contributeForm.show();
+                                             });
+                                        }
 
-                                                    eventualToken.done(function(data) {
-                                                        var token = data['access_token'];
-                                                        console.log("Submitting using token: " + token);
-                                                        handleSubmit(token, modalContent, contributeForm, assignmentForm);
-                                                    });
+                                        if (ownedBy == "783e3e8e-a427-90c9-8272-11a118f20bb2") {
+                                            var termsAndConditionsLink = modalContent.find(".terms-and-conditions");
+                                            termsAndConditionsLink.attr("href", "https://witness.theguardian.com/terms");    // TODO push up
+                                            termsAndConditionsLink.show();
+                                        }
 
-                                                } else {
-                                                    // TODO UI
-                                                    console.log("No grant");
-                                                }
-                                            }
-                                        });
+                                        modalContent.find(".contribly-widget").show();
+                                        contributeForm.show();
+
+                                        //publishContriblyEvent({type: "form-loaded"})  TODO reinstate
+
+                                    } else {
+                                        var assignmentClosed = $contriblyjQuery('<div>This assignment is closed</div>');
+                                        modalContent.find(".contribly-widget").append(assignmentClosed);
+                                        modalContent.find(".contribly-widget").show();
                                     }
 
-                                   var completeTab = modalContent.find('.complete');
-
-                                    var contributeAgainBtn = completeTab.find(".contribute-again");
-                                    if (contributeAgainBtn) {
-                                         contributeAgainBtn.on('click', function(e) {
-                                             e.preventDefault();
-                                             modalContent.find(".complete").hide();
-                                             contributeForm.show();
-                                         });
-                                    }
-
-                                    if (ownedBy == "783e3e8e-a427-90c9-8272-11a118f20bb2") {
-                                        var termsAndConditionsLink = modalContent.find(".terms-and-conditions");
-                                        termsAndConditionsLink.attr("href", "https://witness.theguardian.com/terms");    // TODO push up
-                                        termsAndConditionsLink.show();
-                                    }
-
-                                    modalContent.find(".contribly-widget").show();
-                                    contributeForm.show();
-
-                                    //publishContriblyEvent({type: "form-loaded"})  TODO reinstate
-
-                                } else {
-                                    var assignmentClosed = $contriblyjQuery('<div>This assignment is closed</div>');
-                                    modalContent.find(".contribly-widget").append(assignmentClosed);
-                                    modalContent.find(".contribly-widget").show();
-                                }
-
-
+                                });
                             });
-
                         };
 
                     } else {
