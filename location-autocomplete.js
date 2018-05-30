@@ -60,7 +60,7 @@ function contriblyLocationAutocomplete(locationField, profile) {
                     success: function(data) {
                         response($contriblyjQuery.map(data, function(item) {
                             return {
-                                label: (item.address + " (" + item.classification + "/" + item.type + ")"),
+                                label: item.address,
                                 value: item.address,
                                 osmId: item.osmId,
                                 osmType: item.osmType,
