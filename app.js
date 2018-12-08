@@ -13,7 +13,7 @@ function contriblyInitContributeWidget(button, displayMode) {
     }
 
     var overrideContriblyApi = button.attr('data-api');
-    var contriblyApi = (overrideContriblyApi) ? overrideContriblyApi : "https://contriblyapi.global.ssl.fastly.net/1";
+    var contriblyApi = (overrideContriblyApi) ? overrideContriblyApi : "https://api.contribly.com/1";
 
     var contriblyAssignmentsUrl = contriblyApi + '/assignments';
     var contriblyClientsUrl = contriblyApi + '/clients';
@@ -91,6 +91,7 @@ function contriblyInitContributeWidget(button, displayMode) {
             findModalInner().show();    // TODO needs to be anchored to the right widget
             $contriblyjQuery('.contribly-modal-backdrop').show();
             focusFirstInput(contributeModal);
+	    publishContriblyEvent({type: "form-loaded", dom: findModalInner})
         }
 
         var headerHtml = '<button class="close" type="button" aria-hidden="true">&times;</button><h3 class="heading">Contribute</h3>'
@@ -131,14 +132,19 @@ function contriblyInitContributeWidget(button, displayMode) {
             }
         }
 
-        initContributeForm(contributeModal, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalContent, contriblyFormResponsesUrl, postSubmitCallback, displayMode, [renderModalButton, openOnContributeHash]);
+        initContributeForm(contributeModal, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalContent, contriblyFormResponsesUrl, postSubmitCallback, [renderModalButton, openOnContributeHash]);
     }
 
     if (displayMode == "inline") {
         var div = $contriblyjQuery('<div>', {class: "contribly"});
         div.append(modalBody);
         button.append(div);
-        initContributeForm(div, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalBody, contriblyFormResponsesUrl, postSubmitCallback, displayMode, []);
+
+	function fireFormLoadedEvent() {
+		publishContriblyEvent({type: "form-loaded", dom: button})
+        }
+
+        initContributeForm(div, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalBody, contriblyFormResponsesUrl, postSubmitCallback, [fireFormLoadedEvent]);
     }
 
 }

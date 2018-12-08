@@ -1,4 +1,4 @@
- function initContributeForm(root, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalBody, contriblyFormResponsesUrl, postSubmitCallback, displayMode, completionCallbacks) {
+function initContributeForm(root, requestedAssignment, clientKey, contriblyClientsUrl, contriblyAssignmentsUrl, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyTokenUrl, modalBody, contriblyFormResponsesUrl, postSubmitCallback, completionCallbacks) {
 
     class AnonymousAuthentication {
         buildGrant() {
@@ -14,40 +14,7 @@
         }
     }
 
-    class GuardianCookieAuthentication {
-        buildGrant() {
-          var gu_u = Cookies.get('GU_U');
-          return (gu_u) ? {
-            'grant_type': 'guardianCookie',
-            'cookie': gu_u,
-            'client_id': clientKey
-            } : null;
-        }
-
-        isSignedIn() {
-            var gu_u = Cookies.get('GU_U');
-            return gu_u != undefined;
-        }
-
-        signinPrompt(modalContent) {
-            var returnUrl = window.location;
-            if (window.location.hash == '') {
-                returnUrl = returnUrl + "#contribute";
-            }
-
-            var signinUrl = "https://profile.theguardian.com/signin?returnUrl=" + encodeURIComponent(returnUrl);
-            //if (displayMode == "modal") {
-            //    window.location = signinUrl;
-            //} else {
-
-            var signinPrompt = $contriblyjQuery('<div class="signin-prompt">Please <a href="' + signinUrl + '">sign in</a> to start contributing.</div>');    // TODO how does this get removed?
-            modalContent.find(".contribly-widget").append(signinPrompt);
-            modalContent.find(".contribly-widget").show();
-            //}
-        }
-    }
-
-     var defaultForm =  {
+    var defaultForm =  {
         name: "",
         fields: [
             {
@@ -84,7 +51,7 @@
         ]
     }
 
-    function initModalBody(defaultForm, clientKey, contriblyClientsUrl, contriblyTokenUrl, requestedAssignment, contriblyAssignmentsUrl, modalContent, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyFormResponsesUrl, postSubmitCallback, displayMode) {
+    function initModalBody(defaultForm, clientKey, contriblyClientsUrl, contriblyTokenUrl, requestedAssignment, contriblyAssignmentsUrl, modalContent, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyFormResponsesUrl, postSubmitCallback) {
 
         function clientPromise(clientKey) {
             return $contriblyjQuery.ajax({
@@ -157,10 +124,6 @@
                 var allowsAnonymousContributions = assignment != null && assignment.allowsAnonymousContributions;
                 if (allowsAnonymousContributions) {
                     availableAuthentications.unshift(new AnonymousAuthentication());
-                }
-
-                if (ownedBy == "783e3e8e-a427-90c9-8272-11a118f20bb2") {    // TODO push up
-                    availableAuthentications.unshift(new GuardianCookieAuthentication());
                 }
 
                 if (availableAuthentications.length > 0) {
@@ -246,7 +209,6 @@
 
                                                         eventualToken.done(function(data) {
                                                             var token = data['access_token'];
-                                                            console.log("Submitting using token: " + token);
                                                             handleSubmit(token, modalContent, contributeForm, assignmentForm);
                                                         });
 
@@ -269,22 +231,18 @@
                                              });
                                         }
 
-                                        if (ownedBy == "783e3e8e-a427-90c9-8272-11a118f20bb2") {
-                                            var termsAndConditionsLink = modalContent.find(".terms-and-conditions");
-                                            termsAndConditionsLink.attr("href", "https://witness.theguardian.com/terms");    // TODO push up
-                                            termsAndConditionsLink.show();
-                                        }
-
                                         modalContent.find(".contribly-widget").show();
                                         contributeForm.show();
-
-                                        //publishContriblyEvent({type: "form-loaded"})  TODO reinstate
 
                                     } else {
                                         var assignmentClosed = $contriblyjQuery('<div>This assignment is closed</div>');
                                         modalContent.find(".contribly-widget").append(assignmentClosed);
                                         modalContent.find(".contribly-widget").show();
                                     }
+
+  			      completionCallbacks.forEach(function(cb) {
+                        cb(modalContent, assignment);
+                    });
 
                                 });
                             });
@@ -296,10 +254,6 @@
                         authenticationToUse.signinPrompt(modalContent);
                     }
 
-                    completionCallbacks.forEach(function(cb) {
-                        cb(modalContent, assignment);
-                    });
-
                 } else {
                     console.log("No auth methods available");   // TODO UI
                 }
@@ -308,5 +262,5 @@
         });
     }
 
-    initModalBody(defaultForm, clientKey, contriblyClientsUrl, contriblyTokenUrl, requestedAssignment, contriblyAssignmentsUrl, modalBody, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyFormResponsesUrl, postSubmitCallback, displayMode);
+    initModalBody(defaultForm, clientKey, contriblyClientsUrl, contriblyTokenUrl, requestedAssignment, contriblyAssignmentsUrl, modalBody, contriblyContributionsUrl, contriblyMediaUrl, contriblyFormsUrl, contriblyFormResponsesUrl, postSubmitCallback);
 }

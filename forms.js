@@ -101,15 +101,16 @@ function renderForm(form, description, locationAutocompleteProfile) {   // TODO 
                contriblyGeocode(position, locationField);
             }
 
-            function showError() {
-               // TODO Show field error message
+            function showError(e) {
+               var container = inputGroup;
+               container.addClass("has-error");
             }
 
             // HTML5 location detection
             addOn.on('click', function(e) {
               e.preventDefault();
               var geoOptions = {
-                enableHighAccuracy : true,
+                enableHighAccuracy : false,
                 timeout : 10000,
                 maximumAge : 3000
               };
