@@ -28,7 +28,8 @@ ie.
 
 ## Customisation
 
-Some aspects of the contribute widget's appearance are controlled from the contribution assigment.
+Some aspects of the contribute widget's appearance are controlled from the contribution assignment.
+
 
 ### Contribute form
 
@@ -46,6 +47,7 @@ Some aspects of the contribute widget's appearance are controlled from the contr
 1) Contribution receipt heading; not configurable.
 2) Assignment receipt message field.
 3) Contribution again call to action; not configurable.
+
 
 
 ## Receiving widget events
