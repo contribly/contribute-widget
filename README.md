@@ -24,6 +24,27 @@ ie.
 <span class="contribly-contribute" data-client="a-client-key" data-assignment="an-assignment-id" data-display="inline"></span><script type="text/javascript" src="https://s3-eu-west-1.amazonaws.com/contribly-widgets/contribute/contribute.js"></script>
 ```
 
+## Customisation
+
+Some aspects of the contribute widget's appearance are controlled from the contribution assigment.
+
+### Contribute form
+
+![Contribute form](widget.png "Contribute form")
+
+1) Assignment description field.
+2) Assignment form.
+3) Call to action; not configurable.
+
+
+### Contribution receipt
+
+![Contribute success](thanks.png "Contribute success")
+
+1) Contribution receipt heading; not configurable.
+2) Assignment receipt message field.
+3) Contribution again call to action; not configurable.
+
 
 ## Receiving widget events
 
