@@ -14,7 +14,7 @@ Attribute | Description
 -----------|------------
 assignment  | The id of the assignment that contributions will be submitted to (required)
 client      | The Contribly client key of the application (required)
-display     | The display mode. Inline of modal (inline|model)
+display     | The display mode. Inline or modal (inline / model)
 
 The widget can be inserted into a target page by pasting the HTML snippet into that page.
 The approriate snippets can be found in the Contribly moderation tool.
@@ -48,7 +48,7 @@ Some aspects of the contribute widget's appearance are controlled from the contr
 
 ## Receiving widget events
 
-You may wish to be informed about events which occur within the contributes widget. Calling your analytics service is a common use case.
+You may wish to be informed about events which occur within the contribute widget. Calling your analytics service is a common use case.
 
 You can receive widget event callbacks by defining a function named 'contriblyEventLister'.
 If this function is defined it will be called with an object describing the widget events as they occur.
